@@ -1,0 +1,23 @@
+# Fri Jun 20 10:26:03 EDT 2014 BFH meshes with ../config/config.yml
+en:
+
+  # initial page (aka welcome)
+  landing_page:
+    text: "Please choose one of the following options:"
+    upload_data: "UPLOAD DATA"
+    reporting_periods: "REPORTING PERIODS"
+    reports: "REPORTS"
+    analysis: "ANALYSIS"
+
+  # upload data page
+  upload_page:
+    text: "Use this page to upload data files or review already uploaded data files"
+    prompt: "Select a file to upload"
+    button_text: "Upload"
+    datafiles_header: "Already Uploaded Files"
+    upload_header: "Upload A File"
+    upload_ok_text: "File has been uploaded successfully"
+
+  # this is across pages
+  footer:
+    home_link_text: "Return To Main Menu"

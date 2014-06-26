@@ -1,0 +1,27 @@
+<table border="0" align="center" width="90%"> <!-- main table -->
+  <tr>
+    <td width="200">
+      <img src="http://enrs.trustthevote.org/assets/ttv_grey_poweredby-85bb80e31c6153295ddec9023a74450c.jpg" 
+        alt="powered by Trust The Vote" width="175" height="175">
+    </td>
+    <td valign="top">
+      <h1><%= AppConfig.site_name %></h1>
+      <h2><%=t('landing_page.analysis')%></h2>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td colspan="1">
+      <hr align="left" width="500">
+      <br>
+      [<a href="/"><%= t('landing_page.home_link_text')%></a>]
+      <cite>
+Page rendered 
+<%= 
+  endtime = Time.new;
+  sprintf("%02d/%02d/%04d at %02d:%02d:%02d",endtime.month,endtime.day,endtime.year,endtime.hour,endtime.min,endtime.sec)
+%>
+      </cite>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,18 @@
+# Fri Jun 20 10:18:35 EDT 2014 BFH first cut, meshes with en.yml
+
+common: &common
+  site_name: "Trust The Vote Analytics"
+  contact_email: "webmaster@deterlab.net"
+
+  headlinenav:
+    contacturl: "http://www.trustthevote.org/contact"
+
+development:
+  <<: *common
+
+test:
+  <<: *common
+
+production:
+  <<: *common
+
