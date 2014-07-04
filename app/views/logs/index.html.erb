@@ -1,0 +1,36 @@
+<h1>Listing Uploads</h1>
+
+<table border=0 cellspacing="3" cellpadding="3" style="border-width:1px;border-color:black;border-style:solid;">
+  <tr>
+    <th>File Name</th>
+    <th>Comment</th>
+    <th>Uploaded</th>
+    <th>Status</th>
+    <th>Inrecs</th>
+    <th>Outrecs</th>
+    <th>Duperecs</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @logs.each do |log| %>
+  <tr>
+    <td><%= log.filename %></td>
+    <td><%= log.comment %></td>
+    <td><%= log.created_at %></td>
+    <td><%= log.status %></td>
+    <td align="right"><%= log.inrecs %></td>
+    <td align="right"><%= log.outrecs %></td>
+    <td align="right"><%= log.duperecs %></td>
+    <td><%= link_to 'Show', log %></td>
+    <td><%= link_to 'Edit', edit_log_path(log) %></td>
+    <td><%= link_to 'Destroy', log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<!-- <%= link_to 'New Log', new_log_path %> -->
+<%= link_to 'New Upload', '/uploads' %>

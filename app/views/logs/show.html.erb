@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Comment:</b>
+  <%= @log.comment %>
+</p>
+
+<p>
+  <b>File Name:</b>
+  <%= @log.filename %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @log.status %>
+</p>
+
+<p>
+  <b>Inrecs:</b>
+  <%= @log.inrecs %>
+</p>
+
+<p>
+  <b>Outrecs:</b>
+  <%= @log.outrecs %>
+</p>
+
+<p>
+  <b>Duperecs:</b>
+  <%= @log.duperecs %>
+</p>
+
+
+<%= link_to 'Edit', edit_log_path(@log) %> |
+<%= link_to 'Back', logs_path %>

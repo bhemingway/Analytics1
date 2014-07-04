@@ -1,27 +1,36 @@
-<table border="0" align="center" width="90%"> <!-- main table -->
+<h1>Listing reports</h1>
+
+<table border=0 cellspacing="3" cellpadding="3" style="border-width:1px;border-color:black;border-style:solid;">
   <tr>
-    <td width="200">
-      <img src="http://enrs.trustthevote.org/assets/ttv_grey_poweredby-85bb80e31c6153295ddec9023a74450c.jpg" 
-        alt="powered by Trust The Vote" width="175" height="175">
-    </td>
-    <td valign="top">
-      <h1><%= AppConfig.site_name %></h1>
-      <h2><%=t('landing_page.reports')%></h2>
-    </td>
+    <th>Report</th>
+    <th>Period</th>
+    <th>Created</th>
+    <th>Last Run</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
+
+<% @reports.each do |report| %>
   <tr>
-    <td>&nbsp;</td>
-    <td colspan="1">
-      <hr align="left" width="500">
-      <br>
-      [<a href="/"><%= t('footer.home_link_text')%></a>]
-      <cite>
-Page rendered 
-<%= 
-  endtime = Time.new;
-  sprintf("%02d/%02d/%04d at %02d:%02d:%02d",endtime.month,endtime.day,endtime.year,endtime.hour,endtime.min,endtime.sec)
-%>
-      </cite>
+<!--    <td><%= report.report %></td> -->
+    <td>
+      <%= Report::R2string[report.report] %>
     </td>
+    <td><%= report.period %></td>
+    <td><%= report.created_at %></td>
+    <td><%= report.updated_at %></td>
+    <td><%= submit_tag t('reports_page.make_button_text') %></td>
+    <td><%= link_to 'View', '' %></td>
+    <td><%= link_to 'Show', report %></td>
+    <td><%= link_to 'Edit', edit_report_path(report) %></td>
+    <td><%= link_to 'Destroy', report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
+<% end %>
 </table>
+
+<br />
+
+<%= link_to 'New Report', new_report_path %>

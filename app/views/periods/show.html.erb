@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @period.name %>
+</p>
+
+<p>
+  <b>Period Type:</b>
+<!--  <%= @period.ptype %> -->
+      <%= Period::P2string[@period.ptype] %>
+</p>
+
+<p>
+  <b>Start Date:</b>
+  <%= @period.lodate %>
+</p>
+
+<p>
+  <b>End Date:</b>
+  <%= @period.hidate %>
+</p>
+
+<p>
+  <b>Voter Registration Starts:</b>
+  <%= @period.voter_reg_lodate %>
+</p>
+
+<p>
+  <b>Voter Registration Ends:</b>
+  <%= @period.voter_reg_hidate %>
+</p>
+
+
+<%= link_to 'Edit', edit_period_path(@period) %> |
+<%= link_to 'Back', periods_path %>

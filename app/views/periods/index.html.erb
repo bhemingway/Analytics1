@@ -1,0 +1,40 @@
+<h1>Listing periods</h1>
+
+<table border=0 cellspacing="3" cellpadding="3" style="border-width:1px;border-color:black;border-style:solid;">
+  <tr>
+    <th>Name</th>
+    <th>Period Type</th>
+    <th>Start Date</th>
+<!--
+    <th>End Date</th>
+    <th>Voter<br>Registration<br>Start</th>
+    <th>Voter Registration End</th>
+-->
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @periods.each do |period| %>
+  <tr>
+    <td><%= period.name %></td>
+<!--    <td><%= period.ptype %></td> -->
+    <td>
+      <%= Period::P2string[period.ptype] %>
+    </td>
+    <td><%= period.lodate %></td>
+<!--
+    <td><%= period.hidate %></td>
+    <td><%= period.voter_reg_lodate %></td>
+    <td><%= period.voter_reg_hidate %></td>
+-->
+    <td><%= link_to 'Show', period %></td>
+    <td><%= link_to 'Edit', edit_period_path(period) %></td>
+    <td><%= link_to 'Destroy', period, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Period', new_period_path %>

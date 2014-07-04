@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Report:</b>
+<!--  <%= @report.report %> -->
+  <%=
+    Report::R2string[@report.report]
+  %>
+</p>
+
+<p>
+  <b>Period:</b>
+  <%= @report.period %>
+</p>
+
+<p>
+  <b>Created:</b>
+  <%= @report.created_at %>
+</p>
+
+<p>
+  <b>Last Run:</b>
+  <%= @report.updated_at %>
+</p>
+
+<%= link_to 'Edit', edit_report_path(@report) %> |
+<%= link_to 'Back', reports_path %>

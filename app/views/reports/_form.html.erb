@@ -1,0 +1,50 @@
+<%= form_for(@report) do |f| %>
+  <% if @report.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
+
+      <ul>
+      <% @report.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :report %><br />
+<!--    <%= f.text_field :report %> -->
+    <%=
+        f.select(
+	  :report, 
+	  options_for_select(
+	    Report::String2r,
+	    :report.to_s
+	  )
+	)
+     %>
+  </div>
+  <div class="field">
+    <%= f.label :period %><br />
+<!--    <%= f.text_field :period %> -->
+    <%=
+	# get a hash of period names
+	Report::Pnames.clear
+	@periods.each do |p|
+	    Report::Pnames << p.name
+	end
+
+	# create a select out of those period names
+        f.select(
+	  :period, 
+	  options_for_select(
+	    Report::Pnames,
+	    :period
+	  )
+	)
+     %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
