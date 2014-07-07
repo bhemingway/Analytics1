@@ -54,6 +54,9 @@ class UploadsController < ApplicationController
     if outrecs.nil?
       outrecs = 0
     end
+    if duperecs.nil?
+      duperecs = 0
+    end
 
     # figure out the current time in db-compatible format
     now = Time.new
