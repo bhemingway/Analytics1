@@ -21,11 +21,14 @@ en:
     upload_nack_text: "File not uploaded or not valid"
     ok_color: "#00FF66"
     fail_color: "#FF3300"
+    history_header: "Upload History"
 
   # reporting periods main page
   periods_page:
+    text: "Use this page to define periods for which reports can be run"
     existing_header: "Choose an Existing Reporting Period"
     new_header: "Create a New Reporting Period"
+    history_header: "Existing Periods"
 
   # reporting periods new page
   periods_new_page:
@@ -34,7 +37,9 @@ en:
 
   # reports main page
   reports_page:
+    text: "Use this page to run reports for pre-defined periods"
     make_button_text: "Generate"
+    history_header: "Report Generation History"
 
   # this is across pages
   footer:

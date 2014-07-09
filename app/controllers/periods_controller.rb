@@ -3,6 +3,7 @@ class PeriodsController < ApplicationController
   # GET /periods.json
   def index
     @periods = Period.all
+    @period = Period.new
 
     respond_to do |format|
       format.html # index.html.erb

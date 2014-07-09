@@ -34,14 +34,25 @@
 	    Report::Pnames << p.name
 	end
 
+	if params[:period].nil?
+	  default_period = nil
+	  sel_opt = {}
+	else
+	  default_period = params[:period]
+	  sel_opt = {:disabled => true}
+	end
+
 	# create a select out of those period names
         f.select(
 	  :period, 
 	  options_for_select(
 	    Report::Pnames,
-	    :period
-	  )
+	    default_period
+	  ),
+	  {},
+	  sel_opt
 	)
+
      %>
   </div>
   <div class="actions">

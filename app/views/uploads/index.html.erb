@@ -31,6 +31,32 @@
 	</p>
       <% end %>
       </p>
-      <p>
-<%= link_to 'Back', '/logs' %>
-      </p>
+
+      <p>&nbsp;</p>
+      <h3><%=t('upload_page.history_header')%></h3>
+
+      <table border=0 cellspacing="3" cellpadding="3" style="border-width:1px;border-color:black;border-style:solid;">
+        <tr>
+          <th>File Name</th>
+          <th>Comment</th>
+          <th>Uploaded</th>
+          <th>Status</th>
+          <th>Inrecs</th>
+          <th>Outrecs</th>
+          <th>Duperecs</th>
+        </tr>
+
+<% @logs.each do |log| %>
+  <tr>
+    <td><%= log.filename %></td>
+    <td><%= log.comment %></td>
+    <td><%= log.created_at %></td>
+    <td><%= log.status %></td>
+    <td align="right"><%= log.inrecs %></td>
+    <td align="right"><%= log.outrecs %></td>
+    <td align="right"><%= log.duperecs %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

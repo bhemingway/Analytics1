@@ -3,6 +3,8 @@ class ReportsController < ApplicationController
   # GET /reports.json
   def index
     @reports = Report.all
+    @report = Report.new
+    @periods = Period.all # bfh: to support matching periods with reports
 
     respond_to do |format|
       format.html # index.html.erb
@@ -42,6 +44,7 @@ class ReportsController < ApplicationController
   # POST /reports.json
   def create
     @report = Report.new(params[:report])
+    @periods = Period.all # bfh: to support matching periods with reports
 
     respond_to do |format|
       if @report.save

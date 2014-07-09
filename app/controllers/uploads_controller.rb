@@ -1,6 +1,9 @@
 class UploadsController < ApplicationController
   def index
-     #render :file => 'app\views\upload\uploadfile.rhtml'
+    #render :file => 'app\views\upload\uploadfile.rhtml'
+
+    # need this for history in index page
+    @logs = Log.all
   end
 
   # for prototype, file has to contail the character zero to be valid
@@ -37,6 +40,9 @@ class UploadsController < ApplicationController
   end
 
   def create
+    # need this for history in index page
+    @logs = Log.all
+
     # get the file from the user's machine
     localfile = DataFile.save(params[:upload])
     
