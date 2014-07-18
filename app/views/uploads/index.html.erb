@@ -12,6 +12,10 @@
         msg = 'FAIL'
     end
   end
+
+  bg = ''
+  fcdt = nil
+  updt = nil
 %>
   <span style="background-color: <%= color %>;"> <%= msg %> </span>
 <%= flash[:status] %>
@@ -38,20 +42,45 @@
       <table border=0 cellspacing="3" cellpadding="3" style="border-width:1px;border-color:black;border-style:solid;">
         <tr>
           <th>File Name</th>
+          <th>File Create Date</th>
           <th>Comment</th>
           <th>Uploaded</th>
           <th>Status</th>
-          <th>Inrecs</th>
-          <th>Outrecs</th>
-          <th>Duperecs</th>
+          <th>In</th>
+          <th>Out</th>
+          <th>Dupes</th>
         </tr>
 
 <% @logs.each do |log| %>
-  <tr>
+  <% if log.status.include? "validated"
+     	upstat = "OK";
+        color = t('upload_page.ok_color')
+     else
+     	upstat = "FAIL";
+        color = t('upload_page.fail_color')
+     end
+     if bg == ''
+       bg = '#ccddee'
+     else
+       bg = ''
+     end
+     if log.fileCreateDate.nil?
+       fcdt = ''
+     else
+       fcdt = log.fileCreateDate.to_time.strftime("%m/%d/%Y %I:%M%p")
+     end
+     if log.created_at.nil?
+       updt = ''
+     else
+       updt = log.created_at.to_time.strftime("%m/%d/%Y %I:%M%p")
+     end
+  %>
+  <tr bgcolor="<%= bg %>">
     <td><%= log.filename %></td>
+    <td><%= fcdt %></td>
     <td><%= log.comment %></td>
-    <td><%= log.created_at %></td>
-    <td><%= log.status %></td>
+    <td><%= updt %></td>
+    <td bgcolor="<%= color %>"><%= upstat %></td>
     <td align="right"><%= log.inrecs %></td>
     <td align="right"><%= log.outrecs %></td>
     <td align="right"><%= log.duperecs %></td>

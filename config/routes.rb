@@ -1,5 +1,8 @@
 Analytics1::Application.routes.draw do
 
+  resources :vtrs
+
+
   resources :reports
 
 

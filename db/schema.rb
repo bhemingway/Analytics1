@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140704140825) do
+ActiveRecord::Schema.define(:version => 20140717155348) do
 
   create_table "logs", :force => true do |t|
     t.string   "comment"
@@ -20,8 +20,9 @@ ActiveRecord::Schema.define(:version => 20140704140825) do
     t.integer  "inrecs"
     t.integer  "outrecs"
     t.integer  "duperecs"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.datetime "fileCreateDate"
   end
 
   create_table "periods", :force => true do |t|
@@ -40,6 +41,22 @@ ActiveRecord::Schema.define(:version => 20140704140825) do
     t.string   "period"
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
+  end
+
+  create_table "vtrs", :force => true do |t|
+    t.string   "voterid"
+    t.datetime "date"
+    t.string   "leo"
+    t.string   "formNote"
+    t.string   "form"
+    t.string   "jurisdiction"
+    t.string   "coment"
+    t.string   "notes"
+    t.string   "action"
+    t.string   "election"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.string   "hashAlg"
   end
 
 end
