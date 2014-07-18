@@ -1,0 +1,61 @@
+<%= form_for(@vtr) do |f| %>
+  <% if @vtr.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@vtr.errors.count, "error") %> prohibited this vtr from being saved:</h2>
+
+      <ul>
+      <% @vtr.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :voterid %><br />
+    <%= f.text_field :voterid %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br />
+    <%= f.datetime_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :leo %><br />
+    <%= f.text_field :leo %>
+  </div>
+  <div class="field">
+    <%= f.label :formNote %><br />
+    <%= f.text_field :formNote %>
+  </div>
+  <div class="field">
+    <%= f.label :form %><br />
+    <%= f.text_field :form %>
+  </div>
+  <div class="field">
+    <%= f.label :jurisdiction %><br />
+    <%= f.text_field :jurisdiction %>
+  </div>
+  <div class="field">
+    <%= f.label :coment %><br />
+    <%= f.text_field :coment %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br />
+    <%= f.text_field :notes %>
+  </div>
+  <div class="field">
+    <%= f.label :action %><br />
+    <%= f.text_field :action %>
+  </div>
+  <div class="field">
+    <%= f.label :election %><br />
+    <%= f.text_field :election %>
+  </div>
+  <div class="field">
+    <%= f.label :hashAlg %><br />
+    <%= f.text_field :hashAlg %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

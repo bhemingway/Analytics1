@@ -1,0 +1,49 @@
+<h2>Listing First 1,000 VTRs</h2>
+
+<table>
+  <tr>
+    <th>&nbsp;</th>
+    <th>Voterid</th>
+    <th>Hash<br>Algorithm</th>
+    <th>Date</th>
+    <th>Leo</th>
+    <th>Form</th>
+    <th>Jurisdiction</th>
+    <th>Action</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% bg = ''
+     limit = 1000
+     index = 0
+   %>
+
+<% @vtrs.each do |vtr| %>
+  <% if bg == ''
+       bg = "lightgrey"
+     else
+       bg = ""
+     end
+     index += 1
+     break if index > limit
+   %>
+  <tr bgcolor="<%= bg %>">
+    <td align="right"><%= index %></td>
+    <td><%= vtr.voterid %></td>
+    <td><%= vtr.hashAlg %></td>
+    <td><%= vtr.date.to_time.strftime("%m/%d/%Y %I:%M%p") %></td>
+    <td><%= vtr.leo %></td>
+    <td><%= vtr.form %></td>
+    <td><%= vtr.jurisdiction %></td>
+    <td><%= vtr.action %></td>
+    <td><%= link_to 'Show', vtr %></td>
+    <td><%= link_to 'Edit', edit_vtr_path(vtr) %></td>
+    <td><%= link_to 'Destroy', vtr, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Vtr', new_vtr_path %>
