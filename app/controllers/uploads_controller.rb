@@ -31,11 +31,11 @@ class UploadsController < ApplicationController
 
       # parse the XML doc
       h0 = Hash.from_xml(xml_doc.to_s)
-      logger.debug h0.inspect
+#      logger.debug h0.inspect
 
       # reach deep into the parsed XML tree because we want the header information
       header = h0['voterTransactionLog']['header']
-      logger.debug "VTL header record: #{header.inspect}"
+#      logger.debug "VTL header record: #{header.inspect}"
       if header.has_key?("createDate")
         fcdt = header['createDate']
       end
@@ -45,19 +45,18 @@ class UploadsController < ApplicationController
 
       # level 0 is the list of document types: should be just one, voterTransactionLog
       h0.keys.each do |doctype|
-	logger.debug "parse XML level 0 key=#{doctype}"
+#	logger.debug "parse XML level 0 key=#{doctype}"
 
 	# level 1 is the list of record types: should be just two, header & voterTransactionRecord
 	h1 = h0[doctype]
 	h1.keys.each do |rectype| 
-
-	  logger.debug "parse XML level 1 rec=#{rectype}"
+#	  logger.debug "parse XML level 1 rec=#{rectype}"
 
 	  # handle each record type as needed
 	  recs = h1[rectype]
 
 	  if rectype.include? "voterTransactionRecord"
-	    #logger.debug "VTR records: #{recs.inspect}"
+#	    logger.debug "VTR records: #{recs.inspect}"
 	    recs.each do |rec|
 	      # count this input record
 	      inrecs += 1
@@ -65,20 +64,45 @@ class UploadsController < ApplicationController
 	      # get the hashing algorithm, which actually comes from the header
 	      rec['hashAlg'] = hashalg
 
+	      # check for missing time offset, default to zero (UTC)
+	      tz = /\s*[\-\+]\d+\s*$/.match(rec['date'])
+#	      logger.debug "Time zone match: " + tz.inspect
+	      if tz.nil?
+	        rec['date'] += " UTC +00:00"
+	      end
+
 	      # check for an exact duplicate already in the database by creating a condition clause that matches exactly
 	      conds = Hash.new
 	      rec.each do |col, val|
+		  next if col == 'date'
 		  conds[col] = val
 	      end
-	      logger.debug "De-dupe conditions: #{conds.inspect}"
-	      dupes = Vtr.find(:all,
-		:select => "voterid",
-	        :conditions => conds
-	      )
-	      logger.debug dupes.inspect
+#	      logger.debug "De-dupe conditions: #{conds.inspect}"
+#	      dupes = Vtr.find(:all,
+#		:select => "voterid",
+#	        :conditions => conds
+#	      )
+	      dupes = Vtr.where(conds).all
+	      logger.debug "POSSIBLE DUPES: " + dupes.inspect
+
+	      # check time stamp separately
+	      isok = 1
+	      if dupes.count > 0
+		logger.debug "De-dupe incoming date is '" + rec['date'] + "'"
+		t = Time.parse(rec['date'])
+		logger.debug "De-dupe incoming date as a time object: " + t.inspect
+	        dupes.each do |dupe|
+		  logger.debug "De-dupe existing db date as a time object: " + dupe['date'].inspect
+		  if (t.to_i - dupe['date'].to_i).abs < 2
+		    isok = 0
+		    logger.debug "ACTUAL DUPE: " + dupe.inspect
+		    break
+		  end
+		end
+	      end
 
 	      # create if not a dupe
-	      if dupes.count == 0
+	      if dupes.count == 0 or isok == 1
 	      	Vtr.create(rec)
 		outrecs += 1
 	      else
