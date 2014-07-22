@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140719195205) do
+ActiveRecord::Schema.define(:version => 20140722142103) do
 
   create_table "logs", :force => true do |t|
     t.string   "comment"
@@ -23,6 +23,10 @@ ActiveRecord::Schema.define(:version => 20140719195205) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.datetime "fileCreateDate"
+    t.datetime "lowdate"
+    t.datetime "highdate"
+    t.integer  "idcount"
+    t.binary   "eventfreqs"
   end
 
   create_table "periods", :force => true do |t|

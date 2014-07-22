@@ -18,11 +18,14 @@ class UploadsController < ApplicationController
       status = 2
 
       # attributes to return
-      inrecs = 0
-      outrecs = 0
-      duperecs = 0
-      fcdt = nil
-      hashalg = nil
+      inrecs = 0		# count input records
+      outrecs = 0		# count output records
+      duperecs = 0		# count duplicate records (not output)
+      fcdt = nil		# the file creation date time
+      hashalg = nil		# the voter ID hashing algorithm
+      vids = Hash.new()		# count unique voter ids
+      events = Hash.new()	# count each event type
+      lodate = hidate = nil	# track earliest and latest date
 
       # get the contents of the file, presumed to be an XML doc
       f = File.open(file, "r")
@@ -65,16 +68,16 @@ class UploadsController < ApplicationController
 	      rec['hashAlg'] = hashalg
 
 	      # check for missing time offset, default to zero (UTC)
-	      tz = /\s*[\-\+]\d+\s*$/.match(rec['date'])
-#	      logger.debug "Time zone match: " + tz.inspect
+	      tz = /\s*[\-\+]\d{1,2}\:\d{1,2}\s*$/.match(rec['date'])
+	      logger.debug "Time zone match: " + tz.inspect
 	      if tz.nil?
-	        rec['date'] += " UTC +00:00"
+	        rec['date'] += "+00:00"
 	      end
 
 	      # check for an exact duplicate already in the database by creating a condition clause that matches exactly
 	      conds = Hash.new
 	      rec.each do |col, val|
-		  next if col == 'date'
+		  next if col == 'date'	# deal with date column separately (why do I have to do this?)
 		  conds[col] = val
 	      end
 #	      logger.debug "De-dupe conditions: #{conds.inspect}"
@@ -89,13 +92,14 @@ class UploadsController < ApplicationController
 	      isok = 1
 	      if dupes.count > 0
 		logger.debug "De-dupe incoming date is '" + rec['date'] + "'"
-		t = Time.parse(rec['date'])
-		logger.debug "De-dupe incoming date as a time object: " + t.inspect
+		t1 = rec['date'].to_time.strftime("%m/%d/%Y %I:%T.%3N")
+		logger.debug "De-dupe incoming date as a string: '" + t1 + "'"
 	        dupes.each do |dupe|
-		  logger.debug "De-dupe existing db date as a time object: " + dupe['date'].inspect
-		  if (t.to_i - dupe['date'].to_i).abs < 2
+		  t2 = dupe['date'].to_time.strftime("%m/%d/%Y %I:%T.%3N")
+		  logger.debug "De-dupe existing db date as a string: '" + t2 + "'"
+		  if t1 == t2
 		    isok = 0
-		    logger.debug "ACTUAL DUPE: " + dupe.inspect
+		    logger.debug "ACTUAL DUPE: " + t2
 		    break
 		  end
 		end
@@ -103,8 +107,27 @@ class UploadsController < ApplicationController
 
 	      # create if not a dupe
 	      if dupes.count == 0 or isok == 1
-	      	Vtr.create(rec)
+
+		# keep stats about this batch
 		outrecs += 1
+		k = rec['voterid']
+		k = '(blank)' if k.nil? or k.empty?
+		vids[k] = 0 if vids[k].nil?
+		vids[k] += 1
+		k = rec['action']
+		k = '(blank)' if k.nil? or k.empty?
+		events[k] = 0 if events[k].nil?
+		events[k] += 1
+		if lodate.nil?
+		  lodate = hidate = rec['date']
+		end
+		rc = (rec['date'] <=> lodate)
+		lodate = rec['date'] if rc < 0
+		rc = (rec['date'] <=> hidate)
+		hidate = rec['date'] if rc > 0
+
+		# save the incoming record
+	      	Vtr.create(rec)
 	      else
 	        duperecs += 1
 	      end
@@ -121,8 +144,20 @@ class UploadsController < ApplicationController
     # now that we are done with the file, delete it
     File.delete(file)
 
+    # some of the "stats" require pre-processing
+    eventString = ''
+    events.each do |key, val|
+      eventString += key		# key
+      eventString += '<>'		# key val separator
+      eventString += val.to_s		# val
+      eventString += '^'		# key pair separator
+    end
+
+    logger.debug "Events: " + events.inspect
+    logger.debug "Event string: " + eventString
+
     # return the status to the caller
-    return status, inrecs, outrecs, duperecs, fcdt, hashalg
+    return status, inrecs, outrecs, duperecs, fcdt, hashalg, lodate, hidate, vids.count(), eventString
   end
 
   def create
@@ -130,7 +165,7 @@ class UploadsController < ApplicationController
     localfile = DataFile.save(params[:upload])
     
     # now validate this file, setting "fileUploadStatus" global variable
-    status,inrecs,outrecs,duperecs,fcdt,hashalg = validateUpload(localfile) 
+    status,inrecs,outrecs,duperecs,fcdt,hashalg,lodate,hidate,vidcount,events = validateUpload(localfile) 
     if status.zero?
       fileUploadStatus = t('upload_page.upload_ack_text') 
     else
@@ -163,6 +198,10 @@ class UploadsController < ApplicationController
     rec['outrecs'] = outrecs
     rec['duperecs'] = duperecs
     rec['fileCreateDate'] = fcdt
+    rec['lowdate'] = lodate
+    rec['highdate'] = hidate
+    rec['idcount'] = vidcount
+    rec['eventfreqs'] = events
 
     # update the database
     Log.create(rec)

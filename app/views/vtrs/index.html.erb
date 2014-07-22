@@ -1,23 +1,46 @@
-<h2>Listing First 1,000 VTRs</h2>
+<% bg = ''
+   limit = 20
+   index = 0
+   index = params[:recno].to_i if !params[:recno].to_i.zero?
+   count = 0
+   max = Vtr.count()
+ %>
+
+<h2>Search Form</h2>
+<%= form_tag(vtrs_path, :method => 'get') do %>
+<table>
+  <tr>
+    <th>Voter ID search:</th>
+    <td><%= text_field_tag :search, params[:search] %></td>
+  </tr>
+  <tr>
+    <th>List Records starting at number:</th>
+    <td><%= text_field_tag :recno, params[:recno] %> <cite>max is <%= max %></cite> </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><%= submit_tag "Search", :name => nil %></td>
+  </tr>
+</table>
+<% end %>
+
+<br />
+
+<h2>Listing A Maximum of <%= limit.to_s %> VTRs</h2>
 
 <table>
   <tr>
     <th>&nbsp;</th>
     <th>Voterid</th>
-    <th>Hash<br>Algorithm</th>
-    <th>Date</th>
-    <th>Leo</th>
-    <th>Form</th>
+    <th>Hash</th>
+    <th>Create Date</th>
     <th>Jurisdiction</th>
     <th>Action</th>
+    <th>Upload Date</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
-  <% bg = ''
-     limit = 1000
-     index = 0
-   %>
 
 <% @vtrs.each do |vtr| %>
   <% if bg == ''
@@ -26,17 +49,17 @@
        bg = ""
      end
      index += 1
-     break if index > limit
+     count += 1
+     break if count > limit
    %>
   <tr bgcolor="<%= bg %>">
     <td align="right"><%= index %></td>
     <td><%= vtr.voterid %></td>
     <td><%= vtr.hashAlg %></td>
-    <td><%= vtr.date.to_time.strftime("%m/%d/%Y %I:%M%p") %></td>
-    <td><%= vtr.leo %></td>
-    <td><%= vtr.form %></td>
+    <td><%= vtr.date.to_time.strftime("%m/%d/%Y %I:%T.%3N") %></td>
     <td><%= vtr.jurisdiction %></td>
     <td><%= vtr.action %></td>
+    <td><%= vtr.created_at.to_time.strftime("%m/%d/%Y %I:%M%p") %></td>
     <td><%= link_to 'Show', vtr %></td>
     <td><%= link_to 'Edit', edit_vtr_path(vtr) %></td>
     <td><%= link_to 'Destroy', vtr, method: :delete, data: { confirm: 'Are you sure?' } %></td>

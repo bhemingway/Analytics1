@@ -1,13 +1,27 @@
 <p id="notice"><%= notice %></p>
 
+<% # parse the events blob for later display
+   events = Hash.new()
+   eqs = @log.eventfreqs.split(/\^/)		# split into tag=val equations
+   eqs.each do |eq|				# process each equation
+     x = eq.split(/\<\>/)
+     events[x[0]] = x[1] unless x[0].blank?
+   end
+ %>
+
+<p>
+  <b>File Name:</b>
+  <%= @log.filename %>
+</p>
+
 <p>
   <b>Comment:</b>
   <%= @log.comment %>
 </p>
 
 <p>
-  <b>File Name:</b>
-  <%= @log.filename %>
+  <b>File Creation Date:</b>
+  <%= @log.fileCreateDate %>
 </p>
 
 <p>
@@ -16,20 +30,53 @@
 </p>
 
 <p>
-  <b>Inrecs:</b>
+  <b>Input records:</b>
   <%= @log.inrecs %>
 </p>
 
 <p>
-  <b>Outrecs:</b>
+  <b>Output records:</b>
   <%= @log.outrecs %>
 </p>
 
 <p>
-  <b>Duperecs:</b>
+  <b>Duplicate records:</b>
   <%= @log.duperecs %>
 </p>
 
+<p>
+  <b>First VTR date:</b>
+  <%= @log.lowdate %>
+</p>
 
-<%= link_to 'Edit', edit_log_path(@log) %> |
-<%= link_to 'Back', logs_path %>
+<p>
+  <b>Last VTR date:</b>
+  <%= @log.highdate %>
+</p>
+
+<p>
+  <b>Count of Unique Voter IDs:</b>
+  <%= @log.idcount %>
+</p>
+
+<p>
+  <b>Event Frequencies:</b>
+  <table>
+  <%= eventString = ''
+      bg = ''
+      events.sort_by {|_k, v| v.to_i}.reverse.each do |key, val|
+	if bg.empty?
+	  bg = 'lightgrey'
+	else
+	  bg = ''
+	end
+        eventString += "<tr bgcolor=\"#{bg}\"><th align=\"right\">#{key}</th><td>#{val}</td></tr>"
+      end
+      raw(eventString)
+  %>
+  </table>
+</p>
+
+
+<!-- <%= link_to 'Edit', edit_log_path(@log) %> | -->
+<%= link_to 'Back', uploads_path %>

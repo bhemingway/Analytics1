@@ -2,7 +2,14 @@ class VtrsController < ApplicationController
   # GET /vtrs
   # GET /vtrs.json
   def index
-    @vtrs = Vtr.all
+    if !params[:search].nil? and !params[:search].empty?
+      @vtrs = Vtr.search(params[:search])
+    elsif !params[:recno].nil? and !params[:recno].empty?
+      @vtrs = Vtr.find(:all,:offset => params[:recno], :limit => 20)
+    else
+      #@vtrs = Vtr.all
+      @vtrs = Vtr.find(:all,:limit => 20)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -80,4 +87,5 @@ class VtrsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 end

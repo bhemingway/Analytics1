@@ -30,7 +30,7 @@
 	</p>
 	<p>
 	<label for="upload_file"><%= t('upload_page.file_prompt')%></label>: 
-	<%= file_field 'upload', 'datafile' %>
+	<%= file_field 'upload', 'datafile', required: 'required' %>
 	<%= submit_tag t('upload_page.button_text') %>
 	</p>
       <% end %>
@@ -48,7 +48,8 @@
           <th>Status</th>
           <th>In</th>
           <th>Out</th>
-          <th>Dupes</th>
+          <th>Dupe</th>
+          <th></th>
         </tr>
 
 <% @logs.each do |log| %>
@@ -84,7 +85,9 @@
     <td align="right"><%= log.inrecs %></td>
     <td align="right"><%= log.outrecs %></td>
     <td align="right"><%= log.duperecs %></td>
+    <td><%= link_to 'Show', log %></td>
   </tr>
+
 <% end %>
 </table>
 
