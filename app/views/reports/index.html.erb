@@ -13,6 +13,12 @@
         msg = 'FAIL'
     end
   end
+
+  # get the list of report procedures, sort by name, make an HTML select
+  rproclist = Hash.new()
+  @rprocs.each do |rproc|
+    rproclist[rproc['id']] = rproc['name']
+  end
 %>
   <span style="background-color: <%= color %>;"> <%= msg %> </span>
 <%= flash[:status] %>
@@ -33,27 +39,27 @@
 <!--
     <th></th>
     <th></th>
-    <th></th>
-    <th></th>
 -->
+    <th></th>
+    <th></th>
   </tr>
 
 <% @reports.each do |report| %>
   <tr>
 <!--    <td><%= report.report %></td> -->
     <td>
-      <%= Report::R2string[report.report] %>
+      <%= rproclist[report.report] %>
     </td>
     <td><%= report.period %></td>
     <td><%= report.created_at %></td>
     <td><%= report.updated_at %></td>
-    <td><%= submit_tag t('reports_page.make_button_text') %></td>
+    <td><%= link_to t('reports_page.make_button_text'), report %></td>
 <!--
     <td><%= link_to 'View', '' %></td>
     <td><%= link_to 'Show', report %></td>
-    <td><%= link_to 'Edit', edit_report_path(report) %></td>
-    <td><%= link_to 'Destroy', report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 -->
+    <td><%= link_to 'Edit', edit_report_path(report) %></td>
+    <td><%= link_to 'Remove', report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>

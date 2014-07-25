@@ -51,9 +51,9 @@
     <td><%= period.voter_reg_lodate %></td>
     <td><%= period.voter_reg_hidate %></td>
     <td><%= link_to 'Show', period %></td>
-    <td><%= link_to 'Edit', edit_period_path(period) %></td>
     <td><%= link_to 'Destroy', period, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 -->
+    <td><%= link_to 'Edit', edit_period_path(period) %></td>
     <td><%= link_to 'View', period %></td>
     <td><%= link_to 'Report', controller: "reports", action: "index", period: period.name %></td>
   </tr>

@@ -15,10 +15,17 @@
     <%= f.label :report %><br />
 <!--    <%= f.text_field :report %> -->
     <%=
+	# get the list of report procedures, sort by name, make an HTML select
+	rproclist = Hash.new()
+	@rprocs.each do |rproc|
+	  rproclist[rproc['name']] = rproc['id']
+	end
+
+	# make the HTML select
         f.select(
 	  :report, 
 	  options_for_select(
-	    Report::String2r,
+	    rproclist,
 	    :report.to_s
 	  )
 	)

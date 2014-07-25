@@ -5,6 +5,7 @@ class ReportsController < ApplicationController
     @reports = Report.all
     @report = Report.new
     @periods = Period.all # bfh: to support matching periods with reports
+    @rprocs = Rproc.all # bfh: to support matching reports with report procedures
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,6 +17,8 @@ class ReportsController < ApplicationController
   # GET /reports/1.json
   def show
     @report = Report.find(params[:id])
+    @rprocs = Rproc.all # bfh: to support matching reports with report procedures
+    @periods = Period.all # bfh: to support matching periods with reports
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,6 +40,8 @@ class ReportsController < ApplicationController
 
   # GET /reports/1/edit
   def edit
+    @periods = Period.all # bfh: to support matching periods with reports
+    @rprocs = Rproc.all # bfh: to support matching reports with report procedures
     @report = Report.find(params[:id])
   end
 

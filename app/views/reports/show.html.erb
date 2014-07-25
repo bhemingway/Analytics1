@@ -1,10 +1,18 @@
 <p id="notice"><%= notice %></p>
 
+<%
+  # get the list of report procedures, sort by name, make an HTML select
+  rproclist = Hash.new()
+  @rprocs.each do |rproc|
+    rproclist[rproc['id']] = rproc['name']
+  end
+ %>
+
 <p>
   <b>Report:</b>
 <!--  <%= @report.report %> -->
   <%=
-    Report::R2string[@report.report]
+    rproclist[@report.report]
   %>
 </p>
 
@@ -14,14 +22,10 @@
 </p>
 
 <p>
-  <b>Created:</b>
-  <%= @report.created_at %>
+  <b>Output:</b>
 </p>
+<%= GenRept(@report) %>
 
-<p>
-  <b>Last Run:</b>
-  <%= @report.updated_at %>
-</p>
-
+<p><cite>Report Ends</cite></p>
 <!-- <%= link_to 'Edit', edit_report_path(@report) %> | -->
 <%= link_to 'Back', reports_path %>
