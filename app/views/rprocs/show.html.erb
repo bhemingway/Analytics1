@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @rproc.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @rproc.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_rproc_path(@rproc) %> |
+<%= link_to 'Back', rprocs_path %>

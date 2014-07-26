@@ -1,0 +1,65 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>File Name:</b>
+  <%= @log.filename %>
+</p>
+
+<p>
+  <b>Comment:</b>
+  <%= @log.comment %>
+</p>
+
+<p>
+  <b>File Created:</b>
+  <%= @log.fileCreateDate %>
+</p>
+
+<p>
+  <b>Uploaded at:</b>
+  <%= @log.created_at %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @log.status %>
+</p>
+
+<p>
+  <b>Input Records:</b>
+  <%= @log.inrecs %>
+</p>
+
+<p>
+  <b>Output Records:</b>
+  <%= @log.outrecs %>
+</p>
+
+<p>
+  <b>Duplicate Records:</b>
+  <%= @log.duperecs %>
+</p>
+
+<p>
+  <b>First VTR Date:</b>
+  <%= @log.lowdate %>
+</p>
+
+<p>
+  <b>Last VTR Date:</b>
+  <%= @log.highdate %>
+</p>
+
+<p>
+  <b>Distinct Voter ID Count:</b>
+  <%= @log.idcount %>
+</p>
+
+<p>
+  <b>Events:</b>
+  <%= @log.events %>
+</p>
+
+
+<!-- <%= link_to 'Edit', edit_log_path(@log) %> | -->
+<%= link_to 'Back', logs_path %>

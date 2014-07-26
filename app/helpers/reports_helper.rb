@@ -25,6 +25,8 @@ module ReportsHelper
     case rproc_id
     when 1
       retval = DoR1(period)
+    when 2
+      retval = DoR2(period)
     else
       retval = 'Rproc #{rproc_id} is not supported'   	
     end
@@ -49,6 +51,37 @@ module ReportsHelper
     end
 
     retval = accum.inspect
+  end
+
+  def DoR2(period)
+    retval = '' # what we return
+    accum = Hash.new() # where we accumulate data to report
+
+    # get a list of VTRs between these dates and count transactions by voter id
+    rows = Vtr.where("date(date) between ? and ?", period['lodate'].to_s(:db), period['hidate'].to_s(:db))
+    rows.each do |row|
+      k = row['voterid']
+      accum[k] = 0 if accum[k].nil?
+      accum[k] += 1
+    end
+
+    # scan accumulator, get the min, max and average
+    tot = count = 0
+    min = max = nil
+    accum.each do |k,v|
+      # handle initialization
+      min = v if min.nil?
+      max = v if max.nil?
+
+      tot += v
+      count += 1
+
+      min = v if (v < min)
+      max = v if (v > max)
+    end
+    avg = tot / count
+
+    retval = "Tranactions per voter: min=#{min} max=#{max} average=#{avg}"
   end
 
 end
