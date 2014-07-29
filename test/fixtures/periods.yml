@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  type: 
+  lodate: 2014-07-03
+  hidate: 2014-07-03
+  voter_reg_lodate: 2014-07-03
+  voter_reg_hidate: 2014-07-03
+
+two:
+  name: MyString
+  type: 
+  lodate: 2014-07-03
+  hidate: 2014-07-03
+  voter_reg_lodate: 2014-07-03
+  voter_reg_hidate: 2014-07-03

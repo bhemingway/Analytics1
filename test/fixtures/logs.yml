@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  comment: MyString
+  upldate: 2014-07-03
+  status: MyString
+  inrecs: 1
+  outrecs: 1
+  duperecs: 1
+
+two:
+  comment: MyString
+  upldate: 2014-07-03
+  status: MyString
+  inrecs: 1
+  outrecs: 1
+  duperecs: 1

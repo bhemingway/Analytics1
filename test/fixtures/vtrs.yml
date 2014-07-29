@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  voterid: MyString
+  date: 2014-07-16 11:54:33
+  leo: MyString
+  formNot: MyString
+  form: MyString
+  jurisdiction: MyString
+  coment: MyString
+  notes: MyString
+  action: MyString
+  election: MyString
+
+two:
+  voterid: MyString
+  date: 2014-07-16 11:54:33
+  leo: MyString
+  formNot: MyString
+  form: MyString
+  jurisdiction: MyString
+  coment: MyString
+  notes: MyString
+  action: MyString
+  election: MyString
