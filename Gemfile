@@ -41,3 +41,4 @@ gem 'jquery-rails'
 # bfh
 gem 'execjs'
 gem 'therubyracer'
+gem "rspec-rails"

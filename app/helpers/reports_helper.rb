@@ -79,7 +79,7 @@ module ReportsHelper
       min = v if (v < min)
       max = v if (v > max)
     end
-    avg = tot / count
+    avg = tot / count if count > 0
 
     retval = "Tranactions per voter: min=#{min} max=#{max} average=#{avg}"
   end
