@@ -235,7 +235,7 @@ logger.debug rec.inspect
     rec['eventfreqs'] = events
 
     # update the database
-    Log.create(rec)
+    @new_rec = Log.create(rec)
 
     # put the status where the index page can find it
     fileUploadStatus = fileUploadStatus + ': ' + fname + ' [' + status.to_s + ']'

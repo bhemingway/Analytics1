@@ -17,6 +17,13 @@
   fcdt = nil
   updt = nil
 %>
+<%=
+    # show the data from the log record of this upload
+    unless @new_rec.nil? || @new_rec.id.nil?
+	@log = @new_rec
+	render 'dump'
+    end
+ %>
   <span style="background-color: <%= color %>;"> <%= msg %> </span>
 <%= flash[:status] %>
       </p>
